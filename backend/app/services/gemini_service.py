@@ -34,7 +34,13 @@ _TRANSIENT_CODES = ("429", "500", "502", "503", "UNAVAILABLE", "RESOURCE_EXHAUST
 
 class GeminiService:
     def __init__(self, api_key: str, model: str):
-        self._client = genai.Client(api_key=api_key)
+        self._client = genai.Client(
+            api_key=api_key,
+            http_options=types.HttpOptions(
+                timeout=12000,
+                retry_options=types.HttpRetryOptions(attempts=1),
+            ),
+        )
         self._models = [model] + [m for m in _FALLBACK_MODELS if m != model]
 
     def analyze(

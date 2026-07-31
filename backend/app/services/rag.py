@@ -3,6 +3,7 @@ import math
 from pathlib import Path
 
 from google import genai
+from google.genai import types
 
 from app.data.knowledge_base import KB_ENTRIES
 
@@ -21,7 +22,17 @@ def _cosine(a: list[float], b: list[float]) -> float:
 
 class RagRetriever:
     def __init__(self, api_key: str | None):
-        self._client = genai.Client(api_key=api_key) if api_key else None
+        self._client = (
+            genai.Client(
+                api_key=api_key,
+                http_options=types.HttpOptions(
+                    timeout=8000,
+                    retry_options=types.HttpRetryOptions(attempts=1),
+                ),
+            )
+            if api_key
+            else None
+        )
         self._entries = {e["id"]: e for e in KB_ENTRIES}
         self._vectors = self._load_vectors()
 
