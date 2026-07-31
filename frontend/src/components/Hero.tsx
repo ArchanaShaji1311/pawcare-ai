@@ -126,16 +126,19 @@ export default function Hero() {
           transition={{ delay: 0.1 }}
           className="relative"
         >
-          <div className="animate-float relative mx-auto w-full max-w-sm">
-            <div className="absolute -inset-4 bg-gradient-to-tr from-brand-300/40 to-accent-400/30 blur-2xl rounded-[2rem]" />
-            <div className="relative rounded-[2rem] bg-white dark:bg-slate-800 shadow-2xl shadow-brand-900/10 dark:shadow-black/40 p-6 border border-brand-100 dark:border-slate-700">
-              <div className="rounded-2xl h-44 bg-gradient-to-br from-brand-100 to-sand-100 dark:from-brand-500/20 dark:to-accent-500/10 grid place-items-center text-7xl">
-                🐕
-              </div>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+          <div className="animate-float relative mx-auto w-full max-w-md">
+            <div className="absolute -inset-6 bg-gradient-to-tr from-brand-300/40 to-accent-400/30 blur-3xl rounded-[2.5rem]" />
+            <div className="relative rounded-[2.5rem] bg-white dark:bg-slate-800 shadow-2xl shadow-brand-900/10 dark:shadow-black/40 p-6 sm:p-7 border border-brand-100 dark:border-slate-700">
+              <img
+                src="/hero-dog.jpg"
+                alt="Two healthy, happy golden retriever puppies"
+                loading="eager"
+                className="rounded-2xl h-60 w-full object-cover"
+              />
+              <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
                 AI snapshot
               </p>
-              <div className="mt-3 space-y-3">
+              <div className="mt-3 space-y-3.5">
                 <MetricBar label="Skin health" value={92} delay={0.5} />
                 <MetricBar label="Coat & fur" value={88} delay={0.65} />
                 <div className="flex items-center gap-2 text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg px-3 py-2">
