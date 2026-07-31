@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PawPrint, AlertCircle } from "lucide-react";
 
@@ -23,15 +23,22 @@ import HowItWorks from "./components/HowItWorks";
 import UploadPanel from "./components/UploadPanel";
 import ResultsView from "./components/ResultsView";
 import ResultsSkeleton from "./components/ResultsSkeleton";
+import PageSkeleton from "./components/PageSkeleton";
 import { analyzeDog } from "./api";
 import { useTheme } from "./useTheme";
 import type { AnalyzeResponse } from "./types";
 
 export default function App() {
   const { isDark, toggleTheme } = useTheme();
+  const [booting, setBooting] = useState(true);
   const [result, setResult] = useState<AnalyzeResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setBooting(false), 900);
+    return () => clearTimeout(timer);
+  }, []);
 
   async function handleAnalyze(data: {
     image: File;
@@ -58,8 +65,17 @@ export default function App() {
     }
   }
 
+  if (booting) {
+    return <PageSkeleton />;
+  }
+
   return (
-    <div className="min-h-screen">
+    <motion.div
+      className="min-h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+    >
       <Header isDark={isDark} onToggleTheme={toggleTheme} />
       <Hero />
       <HowItWorks />
@@ -162,6 +178,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-    </div>
+    </motion.div>
   );
 }
