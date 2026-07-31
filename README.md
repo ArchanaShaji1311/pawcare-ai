@@ -5,18 +5,18 @@
 ### Intelligent Dog Health & Care Assistant
 
 Analyze a photo of your dog, describe the symptoms, and get an AI-assisted read on
-**allergies, skin infections, wounds, and behavior** — with **breed-specific care**,
+**allergies, skin infections, wounds, and behavior** - with **breed-specific care**,
 **calibrated confidence scores**, and **honest vet-consultation alerts**.
 
 ![React](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind-v4-06b6d4?logo=tailwindcss&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Python-009688?logo=fastapi&logoColor=white)
-![Gemini](https://img.shields.io/badge/Gemini-Vision%20%2B%20Embeddings-f97316?logo=google&logoColor=white)
+![AI](https://img.shields.io/badge/Frontier_Vision-Gemini_%7C_OpenAI-f97316?logo=openai&logoColor=white)
 
 ### 🔗 [**Live Demo**](https://pawcare-ai-psi.vercel.app) &nbsp;·&nbsp; [API Health](https://pawcare-ai-archana-bht2.onrender.com/api/health)
 
-<sub>Frontend on Vercel · Backend on Render (free tier — first request may take ~30–60s to wake).</sub>
+<sub>Frontend on Vercel · Backend on Render (free tier - first request may take ~30–60s to wake).</sub>
 
 </div>
 
@@ -30,9 +30,9 @@ Analyze a photo of your dog, describe the symptoms, and get an AI-assisted read 
 ## ✨ Overview
 
 PawCare AI is a full-stack platform that helps dog owners monitor their pet's health
-from a simple photo and a short symptom description. It combines a **multimodal vision
-model** (Google Gemini) with a **retrieval-augmented (RAG) veterinary knowledge base**,
-a **rule-based symptom-triage engine**, and a **breed-specific recommendation engine** —
+from a simple photo and a short symptom description. It combines a **frontier multimodal
+vision model** (Gemini or OpenAI) with a **retrieval-augmented (RAG) veterinary knowledge base**,
+a **rule-based symptom-triage engine**, and a **breed-specific recommendation engine** -
 all wrapped in ethical-AI guardrails that never claim certainty and escalate to a vet
 when it matters.
 
@@ -41,23 +41,25 @@ when it matters.
 
 ## 🚀 Key Features
 
-- 🖼️ **Image analysis** — Gemini vision screens the photo for visible signs of allergies,
-  skin infections, wounds, and behavioral cues, returning **structured JSON**.
-- 🧾 **Symptom evaluation** — a rule-based triage engine interprets owner-reported symptoms
+- 🖼️ **Image analysis** - a frontier vision model (Gemini or OpenAI) screens the photo for
+  visible signs of allergies, skin infections, wounds, and behavioral cues, returning **structured JSON**.
+- 🔀 **Provider-agnostic** - bring any available key (Gemini or OpenAI); the backend
+  auto-detects and uses whichever is configured, with a `LLM_PROVIDER` override.
+- 🧾 **Symptom evaluation** - a rule-based triage engine interprets owner-reported symptoms
   and escalates emergency keywords.
-- 🧬 **Breed-specific recommendations** — tailored diet, exercise, and medical guidance
+- 🧬 **Breed-specific recommendations** - tailored diet, exercise, and medical guidance
   across 10+ breeds, with sensible defaults for mixed breeds.
-- 📚 **RAG grounding** — a curated veterinary knowledge base is embedded with
+- 📚 **RAG grounding** - a curated veterinary knowledge base is embedded with
   `gemini-embedding-001` and retrieved by cosine similarity (with a keyword fallback);
   the top matches ground the model's response to reduce hallucination.
-- 🛡️ **Ethical-AI guardrails** — calibrated confidence scores, an overall-confidence
+- 🛡️ **Ethical-AI guardrails** - calibrated confidence scores, an overall-confidence
   readout, and **vet-consultation alerts** (routine → urgent) that trigger on severe
   findings, emergency keywords, or low confidence.
-- 🧼 **Robust image pipeline** — validation, EXIF-orientation, resizing, auto-contrast
+- 🧼 **Robust image pipeline** - validation, EXIF-orientation, resizing, auto-contrast
   normalization, and quality estimation (brightness/sharpness) for reliable inference.
-- 🌗 **Polished UX** — responsive React UI, light/dark themes, drag-and-drop upload,
+- 🌗 **Polished UX** - responsive React UI, light/dark themes, drag-and-drop upload,
   animated results, and skeleton loading states.
-- 🔌 **Graceful degradation** — works offline in a symptom-only mode when no Gemini key
+- 🔌 **Graceful degradation** - works offline in a symptom-only mode when no provider key
   is configured; RAG falls back to keyword retrieval.
 
 ## 🧠 How the AI Works
@@ -68,7 +70,7 @@ when it matters.
   breed ────▶  RAG: embed query (gemini-embedding-001) → cosine top-k over vet KB
                     └─ keyword fallback if embeddings unavailable
 
-               Gemini vision (structured JSON), grounded in retrieved references
+               Frontier vision - Gemini or OpenAI (structured JSON), grounded in references
                     └─ model-fallback chain on transient 429 / 503
 
                Symptom triage · breed recommendation engine · confidence aggregation
@@ -88,7 +90,7 @@ when it matters.
 | --------- | ------------------------------------------------------------------------ |
 | Frontend  | React 19, Vite, TypeScript, Tailwind CSS v4, Framer Motion, lucide-react  |
 | Backend   | FastAPI, Pydantic, Uvicorn, Pillow                                        |
-| AI        | Google Gemini (vision) + `gemini-embedding-001` (RAG embeddings)          |
+| AI        | Google Gemini or OpenAI (vision) + `gemini-embedding-001` (RAG embeddings) |
 | Retrieval | In-memory cosine similarity over a precomputed vector index              |
 | Hosting   | Vercel (frontend) · Render (backend)                                      |
 
@@ -159,13 +161,19 @@ npm run dev                     # open http://localhost:5173
 
 ## 🔑 Environment Variables
 
-**Backend (`backend/.env`)**
+**Backend (`backend/.env`)** - provide **any one** provider key; it auto-detects which to use.
 
-| Variable         | Description                                   | Default               |
-| ---------------- | --------------------------------------------- | --------------------- |
-| `GEMINI_API_KEY` | Google AI Studio key (enables vision + RAG)   | _(empty -> fallback)_ |
-| `GEMINI_MODEL`   | Vision model                                  | `gemini-flash-latest` |
-| `CORS_ORIGINS`   | Comma-separated allowed origins               | localhost dev URLs    |
+| Variable         | Description                                        | Default               |
+| ---------------- | ------------------------------------------------- | --------------------- |
+| `GEMINI_API_KEY` | Google AI Studio key (vision + RAG embeddings)    | _(empty)_             |
+| `GEMINI_MODEL`   | Gemini vision model                               | `gemini-flash-latest` |
+| `OPENAI_API_KEY` | OpenAI key (alternative vision provider)          | _(empty)_             |
+| `OPENAI_MODEL`   | OpenAI vision model                               | `gpt-4o-mini`         |
+| `LLM_PROVIDER`   | `auto` \| `gemini` \| `openai`                    | `auto`                |
+| `CORS_ORIGINS`   | Comma-separated allowed origins                   | localhost dev URLs    |
+
+> With no key set, the app runs in a symptom-only **fallback** mode. `auto` prefers Gemini
+> if its key is present, otherwise OpenAI.
 
 **Frontend (`frontend/.env`)**
 
@@ -185,9 +193,9 @@ npm run dev                     # open http://localhost:5173
 Full step-by-step guide: [**DEPLOYMENT.md**](DEPLOYMENT.md).
 
 **In short:**
-1. **Backend -> Render** — new Web Service, root `backend`, add `GEMINI_API_KEY`; a
+1. **Backend -> Render** - new Web Service, root `backend`, add `GEMINI_API_KEY`; a
    `render.yaml` blueprint is included.
-2. **Frontend -> Vercel** — new project, root `frontend`, set `VITE_API_URL` to the
+2. **Frontend -> Vercel** - new project, root `frontend`, set `VITE_API_URL` to the
    Render URL. SPA routing handled by `vercel.json`.
 
 CORS already allows `localhost` and any `*.vercel.app` origin.
@@ -219,7 +227,7 @@ CORS already allows `localhost` and any `*.vercel.app` origin.
 ## ⚖️ Ethical AI
 
 PawCare AI is designed to **support, never replace** professional veterinary care:
-- It never claims diagnostic certainty — every finding carries a confidence score.
+- It never claims diagnostic certainty - every finding carries a confidence score.
 - It escalates to a vet on severe findings, emergency keywords, or low confidence.
 - It rejects non-dog and low-quality images.
 - Recommendations are grounded in a curated knowledge base to reduce hallucination.

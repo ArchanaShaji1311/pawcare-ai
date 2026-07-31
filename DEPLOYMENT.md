@@ -19,15 +19,15 @@ Deploy the **backend first**, then point the frontend at its URL.
 ## Prerequisites
 
 - The repository pushed to GitHub: `https://github.com/ArchanaShaji1311/pawcare-ai`
-- A free **Google Gemini API key** — <https://aistudio.google.com/app/apikey>
-- A free **Render** account — <https://render.com>
-- A free **Vercel** account — <https://vercel.com>
+- A free **Google Gemini API key** - <https://aistudio.google.com/app/apikey>
+- A free **Render** account - <https://render.com>
+- A free **Vercel** account - <https://vercel.com>
 
 ---
 
 ## 1️⃣ Backend → Render
 
-### Option A — Blueprint (uses the included `render.yaml`)
+### Option A - Blueprint (uses the included `render.yaml`)
 
 1. Go to <https://dashboard.render.com> → **New** → **Blueprint**.
 2. Connect your GitHub and select the **`pawcare-ai`** repo.
@@ -35,7 +35,7 @@ Deploy the **backend first**, then point the frontend at its URL.
 4. When prompted, set the secret env var **`GEMINI_API_KEY`** = your key.
 5. Click **Apply** / **Create**. First build takes a few minutes.
 
-### Option B — Manual Web Service
+### Option B - Manual Web Service
 
 1. **New** → **Web Service** → connect the `pawcare-ai` repo.
 2. Configure:
@@ -53,13 +53,13 @@ Deploy the **backend first**, then point the frontend at its URL.
 
 ### Verify
 
-Open `https://<your-service>.onrender.com/api/health` — you should see:
+Open `https://<your-service>.onrender.com/api/health` - you should see:
 
 ```json
 { "status": "healthy", "gemini_enabled": true, "rag_documents": 22 }
 ```
 
-> 📌 **Copy the backend URL** (e.g. `https://pawcare-ai-archana-bht2.onrender.com`) — you need it next.
+> 📌 **Copy the backend URL** (e.g. `https://pawcare-ai-archana-bht2.onrender.com`) - you need it next.
 >
 > ⏳ **Free-tier note:** Render free services spin down after ~15 min idle, so the first
 > request after a pause may take ~30–60s to wake. This is normal.
@@ -78,8 +78,8 @@ Open `https://<your-service>.onrender.com/api/health` — you should see:
    | Key            | Value                                   |
    | -------------- | --------------------------------------- |
    | `VITE_API_URL` | `https://pawcare-ai-archana-bht2.onrender.com` |
-   (Use **your** Render URL from step 1 — **no trailing slash**.)
-   > ⚠️ Vite bakes env vars at **build time** — after changing `VITE_API_URL` you MUST
+   (Use **your** Render URL from step 1 - **no trailing slash**.)
+   > ⚠️ Vite bakes env vars at **build time** - after changing `VITE_API_URL` you MUST
    > **redeploy** on Vercel (Deployments → ⋯ → Redeploy) for it to take effect.
 4. Click **Deploy**. When it finishes, open the Vercel URL 🎉
 
@@ -122,5 +122,5 @@ git commit -m "chore: update RAG knowledge base" && git push
 | ----------------------------------------- | ------------------------------------------------------------------- |
 | Frontend shows "Offline mode"             | `GEMINI_API_KEY` missing/invalid on Render, or quota hit.           |
 | Network / CORS errors in the browser      | `VITE_API_URL` wrong, or backend still waking (Render cold start).  |
-| First request very slow                   | Render free-tier cold start — retry after it wakes.                 |
-| `rag_documents: 0` in health              | `kb_embeddings.json` missing — run the build script and redeploy.   |
+| First request very slow                   | Render free-tier cold start - retry after it wakes.                 |
+| `rag_documents: 0` in health              | `kb_embeddings.json` missing - run the build script and redeploy.   |
