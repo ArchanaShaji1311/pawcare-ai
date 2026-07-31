@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: pawcare-api
+    name: pawcare-ai-archana
     runtime: python
     plan: free
     rootDir: backend
