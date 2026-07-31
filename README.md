@@ -11,8 +11,9 @@ vet-consultation alerts.
 
 ## ✨ Features
 
-- **Image analysis** — upload a dog photo; Google **Gemini 2.0 Flash** vision
-  screens for allergies, skin infections, wounds, and visible behavioral cues.
+- **Image analysis** — upload a dog photo; Google **Gemini Flash** vision
+  screens for allergies, skin infections, wounds, and visible behavioral cues,
+  with an automatic model-fallback chain that rides through transient 429/503s.
 - **Symptom evaluation engine** — rule-based triage of owner-reported symptoms.
 - **Breed-specific recommendation engine** — tailored diet, exercise, and
   medical guidance across 10+ breeds (with sensible defaults for mixed breeds).

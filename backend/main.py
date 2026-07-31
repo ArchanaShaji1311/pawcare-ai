@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -15,6 +17,7 @@ from app.services.symptom_engine import (
 )
 
 settings = get_settings()
+logger = logging.getLogger("pawcare")
 
 app = FastAPI(title=settings.app_name, version=settings.app_version)
 
@@ -72,7 +75,8 @@ async def analyze(
         try:
             analysis = _gemini.analyze(processed_bytes, symptoms, breed)
             ai_source = "gemini"
-        except Exception:
+        except Exception as exc:
+            logger.warning("Gemini analysis failed, using fallback: %s", exc)
             analysis = build_fallback_analysis(symptoms, meta["estimated_quality"])
     else:
         analysis = build_fallback_analysis(symptoms, meta["estimated_quality"])
