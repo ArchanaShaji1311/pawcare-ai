@@ -64,7 +64,7 @@ export default function App() {
       <Hero />
       <HowItWorks />
 
-      <section id="analyze" className="max-w-6xl mx-auto px-5 pb-20">
+      <section id="analyze" className="max-w-6xl mx-auto px-5 pb-20 scroll-mt-24">
         <div className="grid lg:grid-cols-2 gap-6 items-start">
           <div className="lg:sticky lg:top-24">
             <UploadPanel onAnalyze={handleAnalyze} loading={loading} />
