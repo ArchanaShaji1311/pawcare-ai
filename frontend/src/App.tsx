@@ -127,41 +127,38 @@ export default function App() {
       </section>
 
       <footer className="border-t border-slate-200 dark:border-slate-800 bg-white/60 dark:bg-slate-900/60">
-        <div className="max-w-6xl mx-auto px-5 py-10">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="text-center sm:text-left">
-              <div className="flex items-center justify-center sm:justify-start gap-2 font-semibold text-slate-700 dark:text-slate-200">
-                <PawPrint size={18} className="text-brand-600 dark:text-brand-400" /> PawCare AI
-              </div>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1.5 max-w-sm">
-                Informational use only — always consult a licensed veterinarian.
-              </p>
+        <div className="max-w-6xl mx-auto px-5 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="text-center sm:text-left">
+            <div className="flex items-center justify-center sm:justify-start gap-2 font-semibold text-slate-700 dark:text-slate-200">
+              <PawPrint size={18} className="text-brand-600 dark:text-brand-400" /> PawCare AI
             </div>
-
-            <div className="flex items-center gap-3">
-              <a
-                href="https://www.linkedin.com/in/archanashaji1311/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="grid place-items-center w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-white hover:bg-brand-600 hover:border-brand-600 transition"
-              >
-                <LinkedinIcon />
-              </a>
-              <a
-                href="https://github.com/ArchanaShaji1311/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="grid place-items-center w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-white hover:bg-brand-600 hover:border-brand-600 transition"
-              >
-                <GithubIcon />
-              </a>
-            </div>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+              Informational use only — always consult a licensed veterinarian.
+            </p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+              © {new Date().getFullYear()} PawCare AI · Built by Archana Shaji. All rights reserved.
+            </p>
           </div>
 
-          <div className="mt-8 pt-6 border-t border-slate-200/70 dark:border-slate-800 text-center text-xs text-slate-400 dark:text-slate-500">
-            © {new Date().getFullYear()} PawCare AI · Built by Archana Shaji. All rights reserved.
+          <div className="flex items-center gap-3">
+            <a
+              href="https://www.linkedin.com/in/archanashaji1311/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="grid place-items-center w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-white hover:bg-brand-600 hover:border-brand-600 transition"
+            >
+              <LinkedinIcon />
+            </a>
+            <a
+              href="https://github.com/ArchanaShaji1311/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="grid place-items-center w-10 h-10 rounded-full border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-white hover:bg-brand-600 hover:border-brand-600 transition"
+            >
+              <GithubIcon />
+            </a>
           </div>
         </div>
       </footer>
