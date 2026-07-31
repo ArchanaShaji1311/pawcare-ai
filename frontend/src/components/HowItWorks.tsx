@@ -33,14 +33,16 @@ export default function HowItWorks() {
         {steps.map((s, i) => (
           <div
             key={s.title}
-            className="relative rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-lg dark:hover:shadow-black/40 hover:-translate-y-1 transition"
+            className="rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-6 shadow-sm hover:shadow-lg dark:hover:shadow-black/40 hover:-translate-y-1 transition"
           >
-            <span className="absolute -top-3 -left-3 grid place-items-center w-9 h-9 rounded-xl bg-accent-500 text-white font-bold shadow-lg">
-              {i + 1}
-            </span>
-            <span className="grid place-items-center w-12 h-12 rounded-2xl bg-brand-100 dark:bg-brand-500/15 text-brand-600 dark:text-brand-400 mb-4">
-              <s.icon size={24} />
-            </span>
+            <div className="flex items-start justify-between mb-4">
+              <span className="grid place-items-center w-12 h-12 rounded-2xl bg-brand-100 dark:bg-brand-500/15 text-brand-600 dark:text-brand-400">
+                <s.icon size={24} />
+              </span>
+              <span className="text-4xl font-extrabold leading-none text-slate-200 dark:text-slate-700 select-none">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            </div>
             <h3 className="font-bold text-slate-800 dark:text-slate-100 text-lg">
               {s.title}
             </h3>
