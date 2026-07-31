@@ -44,11 +44,11 @@ export default function UploadPanel({ onAnalyze, loading }: Props) {
   }
 
   return (
-    <div className="rounded-3xl bg-white border border-slate-100 shadow-xl shadow-slate-900/5 p-6 sm:p-8">
-      <h3 className="text-xl font-bold text-slate-900 flex items-center gap-2">
-        <Stethoscope className="text-brand-600" size={22} /> Health check
+    <div className="rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-900/5 dark:shadow-black/30 p-6 sm:p-8">
+      <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+        <Stethoscope className="text-brand-600 dark:text-brand-400" size={22} /> Health check
       </h3>
-      <p className="text-slate-500 text-sm mt-1">
+      <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
         Add a clear photo and any symptoms you've noticed.
       </p>
 
@@ -66,8 +66,8 @@ export default function UploadPanel({ onAnalyze, loading }: Props) {
         onClick={() => !preview && inputRef.current?.click()}
         className={`mt-5 relative rounded-2xl border-2 border-dashed transition cursor-pointer ${
           dragging
-            ? "border-brand-500 bg-brand-50"
-            : "border-slate-200 hover:border-brand-300 bg-slate-50/60"
+            ? "border-brand-500 bg-brand-50 dark:bg-brand-500/10"
+            : "border-slate-200 dark:border-slate-600 hover:border-brand-300 dark:hover:border-brand-500 bg-slate-50/60 dark:bg-slate-900/40"
         }`}
       >
         {preview ? (
@@ -90,13 +90,13 @@ export default function UploadPanel({ onAnalyze, loading }: Props) {
           </div>
         ) : (
           <div className="py-12 flex flex-col items-center text-center px-4">
-            <span className="grid place-items-center w-14 h-14 rounded-2xl bg-brand-100 text-brand-600 mb-3">
+            <span className="grid place-items-center w-14 h-14 rounded-2xl bg-brand-100 dark:bg-brand-500/15 text-brand-600 dark:text-brand-400 mb-3">
               <UploadCloud size={26} />
             </span>
-            <p className="font-semibold text-slate-700">
+            <p className="font-semibold text-slate-700 dark:text-slate-200">
               Drop a photo here or click to browse
             </p>
-            <p className="text-xs text-slate-400 mt-1">JPG or PNG, up to 10MB</p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">JPG or PNG, up to 10MB</p>
           </div>
         )}
         <input
@@ -110,11 +110,11 @@ export default function UploadPanel({ onAnalyze, loading }: Props) {
 
       <div className="mt-5 grid gap-4">
         <div>
-          <label className="text-sm font-semibold text-slate-700">Breed</label>
+          <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">Breed</label>
           <select
             value={breed}
             onChange={(e) => setBreed(e.target.value)}
-            className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"
+            className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:focus:ring-brand-500/30 outline-none"
           >
             <option value="">Select a breed (optional)</option>
             {BREED_OPTIONS.map((b) => (
@@ -126,7 +126,7 @@ export default function UploadPanel({ onAnalyze, loading }: Props) {
         </div>
 
         <div>
-          <label className="text-sm font-semibold text-slate-700">
+          <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">
             Symptoms &amp; observations
           </label>
           <textarea
@@ -134,13 +134,13 @@ export default function UploadPanel({ onAnalyze, loading }: Props) {
             onChange={(e) => setSymptoms(e.target.value)}
             rows={3}
             placeholder="e.g. Red itchy patch on belly, scratching a lot, small scab near the ear…"
-            className="mt-1.5 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-700 resize-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 outline-none"
+            className="mt-1.5 w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 resize-none focus:border-brand-400 focus:ring-2 focus:ring-brand-100 dark:focus:ring-brand-500/30 outline-none"
           />
         </div>
       </div>
 
       {error && (
-        <p className="mt-3 text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">
+        <p className="mt-3 text-sm text-red-600 dark:text-red-300 bg-red-50 dark:bg-red-500/10 rounded-lg px-3 py-2">
           {error}
         </p>
       )}

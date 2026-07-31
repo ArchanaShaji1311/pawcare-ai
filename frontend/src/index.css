@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-brand-50: #f0fdfa;
   --color-brand-100: #ccfbf1;
@@ -29,6 +31,14 @@
       #f8fafc;
     color: #0f172a;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .dark body {
+    background: radial-gradient(1200px 600px at 80% -10%, #0d3a34 0%, transparent 55%),
+      radial-gradient(900px 500px at -10% 10%, #2a2411 0%, transparent 50%),
+      #0a0f1a;
+    color: #e2e8f0;
   }
 }
 
@@ -44,4 +54,8 @@
 .paw-grid {
   background-image: radial-gradient(circle, rgba(13, 148, 136, 0.06) 1px, transparent 1px);
   background-size: 22px 22px;
+}
+
+.dark .paw-grid {
+  background-image: radial-gradient(circle, rgba(45, 212, 191, 0.09) 1px, transparent 1px);
 }
