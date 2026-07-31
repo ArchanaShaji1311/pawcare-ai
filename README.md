@@ -14,6 +14,10 @@ Analyze a photo of your dog, describe the symptoms, and get an AI-assisted read 
 ![FastAPI](https://img.shields.io/badge/FastAPI-Python-009688?logo=fastapi&logoColor=white)
 ![Gemini](https://img.shields.io/badge/Gemini-Vision%20%2B%20Embeddings-f97316?logo=google&logoColor=white)
 
+### 🔗 [**Live Demo**](https://pawcare-ai-psi.vercel.app) &nbsp;·&nbsp; [API Health](https://pawcare-ai-archana-bht2.onrender.com/api/health)
+
+<sub>Frontend on Vercel · Backend on Render (free tier — first request may take ~30–60s to wake).</sub>
+
 </div>
 
 <p align="center">
@@ -170,6 +174,13 @@ npm run dev                     # open http://localhost:5173
 | `VITE_API_URL` | Base URL of the FastAPI backend | `http://localhost:8000` |
 
 ## ☁️ Deployment
+
+**Live deployment:**
+
+| Service  | Platform | URL                                                              |
+| -------- | -------- | ---------------------------------------------------------------- |
+| Frontend | Vercel   | https://pawcare-ai-psi.vercel.app                                |
+| Backend  | Render   | https://pawcare-ai-archana-bht2.onrender.com                     |
 
 Full step-by-step guide: [**DEPLOYMENT.md**](DEPLOYMENT.md).
 

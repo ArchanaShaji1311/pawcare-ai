@@ -7,6 +7,13 @@ PawCare has two deployable parts:
 
 Deploy the **backend first**, then point the frontend at its URL.
 
+> **Current live deployment**
+> - Frontend (Vercel): https://pawcare-ai-psi.vercel.app
+> - Backend (Render): https://pawcare-ai-archana-bht2.onrender.com
+>
+> ⚠️ Render/Vercel subdomains are **globally unique**, so if a name is taken you'll get a
+> random suffix (e.g. `-bht2`, `-psi`). Always use the exact URL shown in your dashboard.
+
 ---
 
 ## Prerequisites
@@ -24,7 +31,7 @@ Deploy the **backend first**, then point the frontend at its URL.
 
 1. Go to <https://dashboard.render.com> → **New** → **Blueprint**.
 2. Connect your GitHub and select the **`pawcare-ai`** repo.
-3. Render reads `backend/render.yaml` and proposes a web service named **pawcare-api**.
+3. Render reads `render.yaml` and proposes a web service named **pawcare-ai-archana** (it may add a random suffix if the name is taken).
 4. When prompted, set the secret env var **`GEMINI_API_KEY`** = your key.
 5. Click **Apply** / **Create**. First build takes a few minutes.
 
@@ -52,7 +59,7 @@ Open `https://<your-service>.onrender.com/api/health` — you should see:
 { "status": "healthy", "gemini_enabled": true, "rag_documents": 22 }
 ```
 
-> 📌 **Copy the backend URL** (e.g. `https://pawcare-api.onrender.com`) — you need it next.
+> 📌 **Copy the backend URL** (e.g. `https://pawcare-ai-archana-bht2.onrender.com`) — you need it next.
 >
 > ⏳ **Free-tier note:** Render free services spin down after ~15 min idle, so the first
 > request after a pause may take ~30–60s to wake. This is normal.
@@ -70,8 +77,10 @@ Open `https://<your-service>.onrender.com/api/health` — you should see:
 3. **Environment Variables → Add:**
    | Key            | Value                                   |
    | -------------- | --------------------------------------- |
-   | `VITE_API_URL` | `https://<your-service>.onrender.com`   |
-   (Use the Render URL from step 1 — **no trailing slash**.)
+   | `VITE_API_URL` | `https://pawcare-ai-archana-bht2.onrender.com` |
+   (Use **your** Render URL from step 1 — **no trailing slash**.)
+   > ⚠️ Vite bakes env vars at **build time** — after changing `VITE_API_URL` you MUST
+   > **redeploy** on Vercel (Deployments → ⋯ → Redeploy) for it to take effect.
 4. Click **Deploy**. When it finishes, open the Vercel URL 🎉
 
 > CORS is already configured in the backend to allow any `*.vercel.app` origin, so the
@@ -93,7 +102,7 @@ Open `https://<your-service>.onrender.com/api/health` — you should see:
 
 Both platforms auto-deploy on every push to `main`:
 
-- Push backend changes → Render rebuilds `pawcare-api`.
+- Push backend changes → Render rebuilds `pawcare-ai-archana`.
 - Push frontend changes → Vercel rebuilds the site.
 
 ## 🧠 Updating the RAG knowledge base
