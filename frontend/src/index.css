@@ -59,3 +59,40 @@
 .dark .paw-grid {
   background-image: radial-gradient(circle, rgba(45, 212, 191, 0.09) 1px, transparent 1px);
 }
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #14b8a6 transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  background-color: #2dd4bf;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #14b8a6;
+}
+
+.dark {
+  scrollbar-color: #0d9488 transparent;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: #0f766e;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #14b8a6;
+}
