@@ -10,7 +10,7 @@ export default function Header({ isDark, onToggleTheme }: Props) {
     <header className="sticky top-0 z-30 backdrop-blur-md bg-white/70 dark:bg-slate-900/70 border-b border-brand-100 dark:border-slate-800">
       <div className="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
         <a
-          href="#top"
+          href="/"
           className="flex items-center gap-2 font-bold text-slate-800 dark:text-slate-100"
         >
           <span className="grid place-items-center w-9 h-9 rounded-xl bg-brand-600 text-white shadow-lg shadow-brand-600/30">
