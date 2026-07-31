@@ -208,7 +208,11 @@ export default function ResultsView({ data }: { data: AnalyzeResponse }) {
                 <CheckCircle2 size={16} />
               </span>
               <div>
-                <p className="font-semibold text-slate-800 dark:text-slate-100 text-sm">{r.title}</p>
+                {r.title && (
+                  <p className="font-semibold text-slate-800 dark:text-slate-100 text-sm">
+                    {r.title}
+                  </p>
+                )}
                 <p className="text-sm text-slate-600 dark:text-slate-300">{r.detail}</p>
               </div>
             </motion.div>

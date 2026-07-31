@@ -41,11 +41,8 @@ def build_recommendations(
 ) -> tuple[RecommendationSet, str]:
     resolved_name, data = get_breed(breed)
 
-    diet = [Recommendation(title="Breed-tailored diet", detail=d) for d in data["diet"]]
-    exercise = [
-        Recommendation(title="Breed-tailored exercise", detail=e)
-        for e in data["exercise"]
-    ]
+    diet = [Recommendation(title="", detail=d) for d in data["diet"]]
+    exercise = [Recommendation(title="", detail=e) for e in data["exercise"]]
 
     medical: list[Recommendation] = []
     seen: set[str] = set()
