@@ -25,6 +25,12 @@ export interface VetAlert {
   reasons: string[];
 }
 
+export interface Source {
+  id: string;
+  title: string;
+  snippet: string;
+}
+
 export interface AnalyzeResponse {
   is_dog: boolean;
   image_quality: string;
@@ -34,6 +40,7 @@ export interface AnalyzeResponse {
   conditions: DetectedCondition[];
   recommendations: RecommendationSet;
   vet_alert: VetAlert;
+  sources: Source[];
   ai_source: "gemini" | "fallback";
   disclaimer: string;
 }

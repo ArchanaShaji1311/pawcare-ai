@@ -8,6 +8,7 @@ import {
   CheckCircle2,
   Sparkles,
   Info,
+  Library,
 } from "lucide-react";
 import type { AnalyzeResponse, DetectedCondition } from "../types";
 
@@ -219,6 +220,36 @@ export default function ResultsView({ data }: { data: AnalyzeResponse }) {
           ))}
         </div>
       </div>
+
+      {data.sources.length > 0 && (
+        <div className="rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-6">
+          <div className="flex items-center gap-2 mb-1">
+            <Library size={18} className="text-brand-600 dark:text-brand-400" />
+            <h4 className="font-bold text-slate-800 dark:text-slate-100">
+              Grounded in these references
+            </h4>
+          </div>
+          <p className="text-xs text-slate-400 dark:text-slate-500 mb-4">
+            Retrieved from PawCare's veterinary knowledge base (RAG) to ground this
+            assessment.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            {data.sources.map((s) => (
+              <div
+                key={s.id}
+                className="rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 p-4"
+              >
+                <p className="font-semibold text-slate-800 dark:text-slate-100 text-sm">
+                  {s.title}
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-3">
+                  {s.snippet}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="flex items-start gap-2 text-xs text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4">
         <Info size={16} className="shrink-0 mt-0.5" />

@@ -4,9 +4,10 @@ from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
-from app.schemas import AnalyzeResponse
+from app.schemas import AnalyzeResponse, Source
 from app.services.gemini_service import GeminiService
 from app.services.preprocessing import ImageValidationError, preprocess_image
+from app.services.rag import RagRetriever
 from app.services.recommendation_engine import (
     aggregate_confidence,
     build_recommendations,
@@ -36,6 +37,22 @@ _gemini = (
     else None
 )
 
+_retriever = RagRetriever(settings.gemini_api_key if settings.gemini_enabled else None)
+
+
+def _build_grounding(symptoms: str | None, breed: str | None):
+    query_parts = ["dog skin coat health signs allergy infection wound behavior"]
+    if breed:
+        query_parts.append(breed)
+    if symptoms:
+        query_parts.append(symptoms)
+    entries = _retriever.retrieve(" ".join(query_parts), breed=breed, k=4)
+    grounding_text = "\n".join(f"- {e['title']}: {e['text']}" for e in entries)
+    sources = [
+        Source(id=e["id"], title=e["title"], snippet=e["text"]) for e in entries
+    ]
+    return grounding_text, sources
+
 DISCLAIMER = (
     "PawCare AI provides informational guidance only and is not a substitute for "
     "professional veterinary diagnosis. When in doubt, consult a licensed vet."
@@ -49,7 +66,11 @@ def root():
 
 @app.get("/api/health")
 def health():
-    return {"status": "healthy", "gemini_enabled": settings.gemini_enabled}
+    return {
+        "status": "healthy",
+        "gemini_enabled": settings.gemini_enabled,
+        "rag_documents": _retriever.vector_count,
+    }
 
 
 @app.post("/api/analyze", response_model=AnalyzeResponse)
@@ -70,10 +91,14 @@ async def analyze(
     except ImageValidationError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
+    grounding_text, sources = _build_grounding(symptoms, breed)
+
     ai_source = "fallback"
     if _gemini is not None:
         try:
-            analysis = _gemini.analyze(processed_bytes, symptoms, breed)
+            analysis = _gemini.analyze(
+                processed_bytes, symptoms, breed, grounding=grounding_text
+            )
             ai_source = "gemini"
         except Exception as exc:
             logger.warning("Gemini analysis failed, using fallback: %s", exc)
@@ -100,6 +125,7 @@ async def analyze(
         conditions=analysis.conditions,
         recommendations=recommendations,
         vet_alert=vet_alert,
+        sources=sources,
         ai_source=ai_source,
         disclaimer=DISCLAIMER,
     )

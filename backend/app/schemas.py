@@ -44,6 +44,12 @@ class VetAlert(BaseModel):
     reasons: list[str]
 
 
+class Source(BaseModel):
+    id: str
+    title: str
+    snippet: str
+
+
 class AnalyzeResponse(BaseModel):
     is_dog: bool
     image_quality: str
@@ -53,6 +59,7 @@ class AnalyzeResponse(BaseModel):
     conditions: list[DetectedCondition]
     recommendations: RecommendationSet
     vet_alert: VetAlert
+    sources: list[Source] = []
     ai_source: str = Field(description="gemini or fallback")
     disclaimer: str
 

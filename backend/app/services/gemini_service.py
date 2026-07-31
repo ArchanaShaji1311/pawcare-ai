@@ -38,9 +38,18 @@ class GeminiService:
         self._models = [model] + [m for m in _FALLBACK_MODELS if m != model]
 
     def analyze(
-        self, image_bytes: str | bytes, symptoms: str | None, breed: str | None
+        self,
+        image_bytes: str | bytes,
+        symptoms: str | None,
+        breed: str | None,
+        grounding: str | None = None,
     ) -> GeminiAnalysis:
         context_parts = [_SYSTEM_PROMPT]
+        if grounding:
+            context_parts.append(
+                "Ground your assessment in these veterinary reference notes; "
+                "prefer them over general knowledge where relevant:\n" + grounding
+            )
         if breed:
             context_parts.append(f"Owner reports the breed as: {breed}.")
         if symptoms:

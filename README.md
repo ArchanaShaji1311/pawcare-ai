@@ -17,6 +17,10 @@ vet-consultation alerts.
 - **Symptom evaluation engine** — rule-based triage of owner-reported symptoms.
 - **Breed-specific recommendation engine** — tailored diet, exercise, and
   medical guidance across 10+ breeds (with sensible defaults for mixed breeds).
+- **RAG grounding** — a curated veterinary knowledge base is embedded with
+  `gemini-embedding-001` and retrieved via cosine similarity (with a keyword
+  fallback); the top matches are injected into the vision prompt and surfaced as
+  cited **sources**, so recommendations are evidence-grounded, not hallucinated.
 - **Ethical AI guardrails** — calibrated **confidence scores**, an overall
   confidence readout, and automatic **vet-consultation alerts** (routine →
   urgent) that escalate on severe findings or emergency keywords.
@@ -36,9 +40,12 @@ PawCare/
 │       ├── config.py              env-based settings
 │       ├── schemas.py             Pydantic models (also Gemini output schema)
 │       ├── data/breeds.py         breed knowledge base
+│       ├── data/knowledge_base.py RAG vet knowledge base (documents)
+│       ├── data/kb_embeddings.json precomputed embeddings for retrieval
 │       └── services/
 │           ├── preprocessing.py   Pillow image pipeline
-│           ├── gemini_service.py  Gemini vision (structured JSON output)
+│           ├── gemini_service.py  Gemini vision (structured JSON, RAG-grounded)
+│           ├── rag.py             embed + cosine retrieval (keyword fallback)
 │           ├── symptom_engine.py  symptom triage + vet-alert logic
 │           └── recommendation_engine.py  breed-specific care + confidence
 └── frontend/         React 19 + Vite + TS + Tailwind v4  → Vercel
