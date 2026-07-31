@@ -6,6 +6,7 @@ import Hero from "./components/Hero";
 import HowItWorks from "./components/HowItWorks";
 import UploadPanel from "./components/UploadPanel";
 import ResultsView from "./components/ResultsView";
+import ResultsSkeleton from "./components/ResultsSkeleton";
 import { analyzeDog } from "./api";
 import { useTheme } from "./useTheme";
 import type { AnalyzeResponse } from "./types";
@@ -73,15 +74,12 @@ export default function App() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-xl p-10 grid place-items-center text-center"
                 >
-                  <span className="animate-float text-6xl mb-4">🐾</span>
-                  <p className="font-semibold text-slate-700 dark:text-slate-200">
+                  <div className="flex items-center justify-center gap-2 text-sm font-medium text-brand-600 dark:text-brand-400 mb-4">
+                    <span className="animate-float text-2xl">🐾</span>
                     Analyzing your dog's health…
-                  </p>
-                  <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">
-                    Preprocessing image and evaluating symptoms
-                  </p>
+                  </div>
+                  <ResultsSkeleton />
                 </motion.div>
               )}
 
