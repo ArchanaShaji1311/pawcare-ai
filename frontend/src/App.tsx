@@ -82,11 +82,11 @@ export default function App() {
 
       <section id="analyze" className="max-w-6xl mx-auto px-5 pb-20 scroll-mt-24">
         <div className="grid lg:grid-cols-2 gap-6 items-start">
-          <div className="lg:sticky lg:top-24">
+          <div className="lg:sticky lg:top-24 min-w-0">
             <UploadPanel onAnalyze={handleAnalyze} loading={loading} />
           </div>
 
-          <div id="results">
+          <div id="results" className="min-w-0">
             <AnimatePresence mode="wait">
               {error && (
                 <motion.div

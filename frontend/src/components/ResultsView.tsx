@@ -181,7 +181,7 @@ export default function ResultsView({ data }: { data: AnalyzeResponse }) {
 
       <div className="rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-lg shadow-slate-900/5 dark:shadow-black/30 p-6">
         <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-4">Personalized care plan</h4>
-        <div className="flex gap-2 mb-4">
+        <div className="flex flex-wrap gap-2 mb-4">
           {tabs.map((t) => (
             <button
               key={t.key}
