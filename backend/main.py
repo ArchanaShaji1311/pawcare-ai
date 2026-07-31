@@ -5,7 +5,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import get_settings
 from app.schemas import AnalyzeResponse, Source
-from app.services.gemini_service import GeminiService
 from app.services.preprocessing import ImageValidationError, preprocess_image
 from app.services.rag import RagRetriever
 from app.services.recommendation_engine import (
@@ -31,11 +30,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-_gemini = (
-    GeminiService(settings.gemini_api_key, settings.gemini_model)
-    if settings.gemini_enabled
-    else None
-)
+def _create_vision_service():
+    provider = settings.active_provider
+    if provider == "gemini":
+        from app.services.gemini_service import GeminiService
+
+        return GeminiService(settings.gemini_api_key, settings.gemini_model)
+    if provider == "openai":
+        from app.services.openai_service import OpenAIService
+
+        return OpenAIService(settings.openai_api_key, settings.openai_model)
+    return None
+
+
+_vision = _create_vision_service()
 
 _retriever = RagRetriever(settings.gemini_api_key if settings.gemini_enabled else None)
 
@@ -68,6 +76,8 @@ def root():
 def health():
     return {
         "status": "healthy",
+        "provider": settings.active_provider,
+        "ai_enabled": settings.ai_enabled,
         "gemini_enabled": settings.gemini_enabled,
         "rag_documents": _retriever.vector_count,
     }
@@ -94,14 +104,14 @@ async def analyze(
     grounding_text, sources = _build_grounding(symptoms, breed)
 
     ai_source = "fallback"
-    if _gemini is not None:
+    if _vision is not None:
         try:
-            analysis = _gemini.analyze(
+            analysis = _vision.analyze(
                 processed_bytes, symptoms, breed, grounding=grounding_text
             )
-            ai_source = "gemini"
+            ai_source = settings.active_provider
         except Exception as exc:
-            logger.warning("Gemini analysis failed, using fallback: %s", exc)
+            logger.warning("Vision analysis failed, using fallback: %s", exc)
             analysis = build_fallback_analysis(symptoms, meta["estimated_quality"])
     else:
         analysis = build_fallback_analysis(symptoms, meta["estimated_quality"])

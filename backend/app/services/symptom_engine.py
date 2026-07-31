@@ -1,6 +1,6 @@
 from app.schemas import (
     DetectedCondition,
-    GeminiAnalysis,
+    VisionAnalysis,
     Severity,
     VetAlert,
 )
@@ -68,7 +68,7 @@ def evaluate_symptoms(symptoms: str | None) -> list[DetectedCondition]:
 
 def build_fallback_analysis(
     symptoms: str | None, image_quality: str
-) -> GeminiAnalysis:
+) -> VisionAnalysis:
     conditions = evaluate_symptoms(symptoms)
     if conditions:
         summary = (
@@ -81,7 +81,7 @@ def build_fallback_analysis(
             "No specific concerns were identified from the reported information. "
             "Add a Gemini API key to enable full AI image analysis."
         )
-    return GeminiAnalysis(
+    return VisionAnalysis(
         is_dog=True,
         image_quality=image_quality,
         overall_summary=summary,

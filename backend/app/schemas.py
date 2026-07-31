@@ -20,7 +20,7 @@ class DetectedCondition(BaseModel):
     explanation: str = Field(description="What visual/described evidence supports this")
 
 
-class GeminiAnalysis(BaseModel):
+class VisionAnalysis(BaseModel):
     is_dog: bool = Field(description="Whether the image actually contains a dog")
     image_quality: str = Field(description="One of: good, fair, poor")
     overall_summary: str

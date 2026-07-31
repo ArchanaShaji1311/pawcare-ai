@@ -29,7 +29,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100 dark:bg-brand-500/15 text-brand-700 dark:text-brand-300 text-xs font-semibold"
           >
-            <Sparkles size={14} /> Powered by Gemini Vision AI
+            <Sparkles size={14} /> Powered by Frontier Vision AI
           </motion.span>
           <motion.h1
             initial={{ opacity: 0, y: 16 }}

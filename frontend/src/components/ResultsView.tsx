@@ -118,13 +118,13 @@ export default function ResultsView({ data }: { data: AnalyzeResponse }) {
               <h3 className="text-xl font-bold text-slate-900 dark:text-white">Analysis summary</h3>
               <span
                 className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${
-                  data.ai_source === "gemini"
+                  data.ai_source !== "fallback"
                     ? "bg-brand-100 dark:bg-brand-500/15 text-brand-700 dark:text-brand-300"
                     : "bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300"
                 }`}
               >
                 <Sparkles size={12} />
-                {data.ai_source === "gemini" ? "Gemini Vision" : "Offline mode"}
+                {data.ai_source !== "fallback" ? "Frontier Vision" : "Offline mode"}
               </span>
             </div>
             {data.breed && (

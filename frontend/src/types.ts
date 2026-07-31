@@ -41,6 +41,6 @@ export interface AnalyzeResponse {
   recommendations: RecommendationSet;
   vet_alert: VetAlert;
   sources: Source[];
-  ai_source: "gemini" | "fallback";
+  ai_source: string;
   disclaimer: string;
 }
