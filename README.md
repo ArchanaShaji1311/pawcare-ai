@@ -49,9 +49,10 @@ when it matters.
   and escalates emergency keywords.
 - 🧬 **Breed-specific recommendations** - tailored diet, exercise, and medical guidance
   across 10+ breeds, with sensible defaults for mixed breeds.
-- 📚 **RAG grounding** - a curated veterinary knowledge base is embedded with
-  `gemini-embedding-001` and retrieved by cosine similarity (with a keyword fallback);
-  the top matches ground the model's response to reduce hallucination.
+- 📚 **RAG grounding** - a 50+ document veterinary knowledge base is embedded with
+  `gemini-embedding-001` and retrieved via **hybrid search** (embedding cosine + keyword,
+  blended and re-ranked, with a keyword-only fallback); the top matches ground the
+  model's response to reduce hallucination.
 - 🛡️ **Ethical-AI guardrails** - calibrated confidence scores, an overall-confidence
   readout, and **vet-consultation alerts** (routine → urgent) that trigger on severe
   findings, emergency keywords, or low confidence.

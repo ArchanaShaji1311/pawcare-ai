@@ -60,33 +60,46 @@ class RagRetriever:
             return None
 
     def retrieve(self, query: str, breed: str | None = None, k: int = 4) -> list[dict]:
-        query_vector = self._embed(query)
-        if query_vector and self._vectors:
-            scored = [
-                (cid, _cosine(query_vector, vec))
-                for cid, vec in self._vectors.items()
-            ]
-            scored.sort(key=lambda item: item[1], reverse=True)
-            results = [
-                self._entries[cid] for cid, _ in scored[:k] if cid in self._entries
-            ]
-            if results:
-                return _ensure_breed(results, breed, self._entries)
-        return self._keyword_retrieve(query, breed, k)
-
-    def _keyword_retrieve(self, query: str, breed: str | None, k: int) -> list[dict]:
         tokens = {t for t in query.lower().split() if len(t) > 2}
-        scored: list[tuple[str, int]] = []
-        for cid, entry in self._entries.items():
-            text = f"{entry['title']} {entry['text']}".lower()
-            score = sum(1 for t in tokens if t in text)
-            if breed and entry.get("breed") == breed.strip().lower():
-                score += 5
-            if score:
-                scored.append((cid, score))
-        scored.sort(key=lambda item: item[1], reverse=True)
-        results = [self._entries[cid] for cid, _ in scored[:k]]
+        keyword = {
+            cid: self._keyword_score(entry, tokens, breed)
+            for cid, entry in self._entries.items()
+        }
+
+        query_vector = self._embed(query) if self._vectors else None
+        if query_vector:
+            embedding = _normalize(
+                {cid: _cosine(query_vector, vec) for cid, vec in self._vectors.items()}
+            )
+            keyword_norm = _normalize(keyword)
+            blended = {
+                cid: 0.7 * embedding.get(cid, 0.0) + 0.3 * keyword_norm.get(cid, 0.0)
+                for cid in self._entries
+            }
+        else:
+            blended = keyword
+
+        ranked = sorted(blended.items(), key=lambda item: item[1], reverse=True)
+        results = [self._entries[cid] for cid, _ in ranked[:k]]
         return _ensure_breed(results, breed, self._entries)
+
+    @staticmethod
+    def _keyword_score(entry: dict, tokens: set[str], breed: str | None) -> float:
+        text = f"{entry['title']} {entry['text']}".lower()
+        score = float(sum(1 for t in tokens if t in text))
+        if breed and entry.get("breed") == breed.strip().lower():
+            score += 5.0
+        return score
+
+
+def _normalize(scores: dict[str, float]) -> dict[str, float]:
+    if not scores:
+        return {}
+    lo = min(scores.values())
+    hi = max(scores.values())
+    if hi - lo < 1e-9:
+        return {cid: 0.0 for cid in scores}
+    return {cid: (v - lo) / (hi - lo) for cid, v in scores.items()}
 
 
 def _ensure_breed(

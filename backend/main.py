@@ -1,4 +1,6 @@
+import hashlib
 import logging
+from collections import OrderedDict
 
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -66,6 +68,25 @@ DISCLAIMER = (
     "professional veterinary diagnosis. When in doubt, consult a licensed vet."
 )
 
+_CACHE: "OrderedDict[str, AnalyzeResponse]" = OrderedDict()
+_CACHE_MAX = 128
+
+
+def _cache_key(raw: bytes, symptoms: str | None, breed: str | None) -> str:
+    h = hashlib.sha256()
+    h.update(raw)
+    h.update((symptoms or "").strip().lower().encode())
+    h.update((breed or "").strip().lower().encode())
+    h.update(settings.active_provider.encode())
+    return h.hexdigest()
+
+
+def _cache_put(key: str, value: AnalyzeResponse) -> None:
+    _CACHE[key] = value
+    _CACHE.move_to_end(key)
+    while len(_CACHE) > _CACHE_MAX:
+        _CACHE.popitem(last=False)
+
 
 @app.get("/")
 def root():
@@ -93,6 +114,12 @@ async def analyze(
         raise HTTPException(status_code=400, detail="Uploaded file must be an image.")
 
     raw = await image.read()
+
+    cache_key = _cache_key(raw, symptoms, breed)
+    cached = _CACHE.get(cache_key)
+    if cached is not None:
+        _CACHE.move_to_end(cache_key)
+        return cached
 
     try:
         processed_bytes, meta = preprocess_image(
@@ -128,7 +155,7 @@ async def analyze(
     vet_alert = compute_vet_alert(analysis.conditions, symptoms)
     overall_confidence = aggregate_confidence(analysis.conditions)
 
-    return AnalyzeResponse(
+    response = AnalyzeResponse(
         is_dog=analysis.is_dog,
         image_quality=analysis.image_quality or meta["estimated_quality"],
         breed=resolved_breed if breed else None,
@@ -142,3 +169,6 @@ async def analyze(
         image_verified=image_verified,
         disclaimer=DISCLAIMER,
     )
+    if image_verified:
+        _cache_put(cache_key, response)
+    return response
