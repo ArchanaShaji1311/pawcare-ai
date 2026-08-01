@@ -72,14 +72,15 @@ def build_fallback_analysis(
     conditions = evaluate_symptoms(symptoms)
     if conditions:
         summary = (
-            "Based on reported symptoms, the items below may warrant attention. "
-            "This offline assessment does not analyze the photo; add a Gemini API "
-            "key for full image analysis."
+            "AI image verification is temporarily unavailable, so the photo could "
+            "not be confirmed to show a dog. The items below are based only on the "
+            "symptoms you described - please retry shortly for full image analysis."
         )
     else:
         summary = (
-            "No specific concerns were identified from the reported information. "
-            "Add a Gemini API key to enable full AI image analysis."
+            "AI image verification is temporarily unavailable, so the photo could "
+            "not be analyzed. Describe your dog's symptoms, or retry shortly for "
+            "full image analysis."
         )
     return VisionAnalysis(
         is_dog=True,

@@ -111,6 +111,25 @@ export default function ResultsView({ data }: { data: AnalyzeResponse }) {
       animate={{ opacity: 1, y: 0 }}
       className="space-y-5"
     >
+      {!data.image_verified && (
+        <div className="rounded-2xl border border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 p-4 flex items-start gap-3">
+          <AlertTriangle
+            className="text-amber-600 dark:text-amber-400 shrink-0"
+            size={22}
+          />
+          <div>
+            <p className="font-bold text-amber-700 dark:text-amber-300">
+              Photo not AI-verified
+            </p>
+            <p className="text-sm text-slate-600 dark:text-slate-300 mt-0.5">
+              Image analysis is temporarily unavailable, so we couldn't confirm this
+              photo shows a dog. The results below are based only on your described
+              symptoms - please try again shortly for full photo analysis.
+            </p>
+          </div>
+        </div>
+      )}
+
       <div className="rounded-3xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-900/5 dark:shadow-black/30 p-6 sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>

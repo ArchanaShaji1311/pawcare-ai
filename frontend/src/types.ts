@@ -42,5 +42,6 @@ export interface AnalyzeResponse {
   vet_alert: VetAlert;
   sources: Source[];
   ai_source: string;
+  image_verified: boolean;
   disclaimer: string;
 }

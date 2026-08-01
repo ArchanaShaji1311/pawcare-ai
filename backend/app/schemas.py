@@ -60,7 +60,10 @@ class AnalyzeResponse(BaseModel):
     recommendations: RecommendationSet
     vet_alert: VetAlert
     sources: list[Source] = []
-    ai_source: str = Field(description="gemini or fallback")
+    ai_source: str = Field(description="active provider or fallback")
+    image_verified: bool = Field(
+        description="True when a vision model confirmed the image shows a dog"
+    )
     disclaimer: str
 
 

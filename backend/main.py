@@ -104,19 +104,21 @@ async def analyze(
     grounding_text, sources = _build_grounding(symptoms, breed)
 
     ai_source = "fallback"
+    image_verified = False
     if _vision is not None:
         try:
             analysis = _vision.analyze(
                 processed_bytes, symptoms, breed, grounding=grounding_text
             )
             ai_source = settings.active_provider
+            image_verified = True
         except Exception as exc:
             logger.warning("Vision analysis failed, using fallback: %s", exc)
             analysis = build_fallback_analysis(symptoms, meta["estimated_quality"])
     else:
         analysis = build_fallback_analysis(symptoms, meta["estimated_quality"])
 
-    if not analysis.is_dog:
+    if image_verified and not analysis.is_dog:
         raise HTTPException(
             status_code=422,
             detail="No dog detected in the image. Please upload a clear photo of your dog.",
@@ -137,5 +139,6 @@ async def analyze(
         vet_alert=vet_alert,
         sources=sources,
         ai_source=ai_source,
+        image_verified=image_verified,
         disclaimer=DISCLAIMER,
     )
